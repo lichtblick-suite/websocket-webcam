@@ -1,0 +1,3 @@
+opencv-python
+foxglove_sdk
+foxglove_websocket
