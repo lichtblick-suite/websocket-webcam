@@ -1,0 +1,27 @@
+{
+    "title": "lichtblick.randomValue",
+    "description": "Random value",
+    "$comment": "Generated for testing",
+    "type": "object",
+    "properties": {
+      "timestamp": {
+        "type": "object",
+        "title": "time",
+        "properties": {
+          "sec": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "nsec": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 999999999
+          }
+        },
+        "description": "Timestamp of image"
+      },
+      "value": {
+        "type": "number"
+      }
+    }
+  }
