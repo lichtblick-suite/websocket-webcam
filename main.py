@@ -1,6 +1,7 @@
 import asyncio
 import time
 import cv2
+from src.messages.eyes import get_eyes_message
 from src.messages.random_value import get_random_value_message
 from src.messages.faces import get_faces_message
 from src.messages.camera_info import get_camera_info_message
@@ -30,7 +31,7 @@ async def main():
     
         # Send frames continuously
         i = 0
-        while True:
+        while True:            
             ret, frame = cap.read()
             if not ret:
                 print("Error: Failed to capture image.")
@@ -39,7 +40,7 @@ async def main():
             # Encode frame as JPEG and then base64 encode it to send as string
             ret, jpeg = cv2.imencode('.jpg', frame)
             if ret:
-                await asyncio.sleep(0.01)
+                await asyncio.sleep(0.001)
 
                 # Send the same Timestamp
                 timestamp = { "sec": int(time.time()), "nsec": int((time.time() % 1) * 1e9)}
@@ -53,8 +54,13 @@ async def main():
                 faces_message = get_faces_message(frame, timestamp)
                 await server.send_message(channels['faces'], time.time_ns(), faces_message)
                 
+                eyes_message = get_eyes_message(frame, timestamp)
+                await server.send_message(channels['eyes'], time.time_ns(), eyes_message)
+                
                 random_value_message = get_random_value_message(timestamp)
                 await server.send_message(channels["random"], time.time_ns(), random_value_message)
+                
+                
 
         cap.release()
 

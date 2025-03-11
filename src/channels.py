@@ -29,6 +29,14 @@ async def add_channels_to_server(server: FoxgloveServer):
         "schemaEncoding": "jsonschema",
     })
     
+    channels['eyes'] = await server.add_channel({
+        "topic": "/markers/eyes",
+        "encoding": "json",
+        "schemaName": "foxglove.SceneUpdate",
+        "schema": load_json('src/schemas/SceneUpdate.json'),
+        "schemaEncoding": "jsonschema",
+    })
+    
     channels['random'] = await server.add_channel({
         "topic": "/random",
         "encoding": "json",
