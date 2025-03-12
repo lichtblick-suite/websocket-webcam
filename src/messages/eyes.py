@@ -33,7 +33,7 @@ def create_scene_update(eyes, timestamp):
         x_norm = ((x + w / 2) - (IMAGE_WIDTH / 2)) / (IMAGE_WIDTH / 4)  # Normalize X
         y_norm = -((y + h / 2) - (IMAGE_HEIGHT / 2)) / (IMAGE_HEIGHT / 2)  # Normalize Y (inverted)
         
-        cube_size_x = w * 2 / IMAGE_WIDTH  # Use width relative to the image width
+        cube_size_x = w * 4 / IMAGE_WIDTH  # Use width relative to the image width
         
         sphere = {
             "color": { "r": 200, "g": 2, "b": 20, "a": 0.3 },
