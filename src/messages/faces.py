@@ -1,11 +1,13 @@
 import json
 import cv2
+from src.config import IMAGE_WIDTH, IMAGE_HEIGHT
 
 # Load a pre-trained face detection model (Haar Cascade)
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
 # Function to get the faces message
 def get_faces_message(frame, timestamp):
+
     
     # Convert to grayscale for face detection
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -15,7 +17,7 @@ def get_faces_message(frame, timestamp):
         gray,
         scaleFactor=1.1,  # Increase to reduce false positives (try 1.2–1.3)
         minNeighbors=9,    # Increase to require more "confirmations" (try 7–10)
-        minSize=(60, 60)   # Ignore very small objects (increase if needed)
+        minSize=(30, 30)   # Ignore very small objects (increase if needed)
     )
 
     # Create SceneUpdate message with cubes for each face
@@ -26,17 +28,17 @@ def get_faces_message(frame, timestamp):
 # Function to create SceneUpdate with cubes for each face
 # Function to create SceneUpdate with cubes for each face
 def create_scene_update(faces, timestamp):
-    img_width, img_height = 1920, 1080  # Your image dimensions
-
     cubes = []
     for (x, y, w, h) in faces:
         # Convert pixel coordinates to normalized [-1, 1] range
-        x_norm = ((x + w / 2) - (img_width / 2)) / (img_width / 4)  # Normalize X
-        y_norm = -((y + h / 2) - (img_height / 2)) / (img_height / 2)  # Normalize Y (inverted)
+        x_norm = ((x + w / 2) - (IMAGE_WIDTH / 2)) / (IMAGE_WIDTH / 4)  # Normalize X
+        y_norm = -((y + h / 2) - (IMAGE_HEIGHT / 2)) / (IMAGE_HEIGHT / 2)  # Normalize Y (inverted)
+        
+        cube_size = h * 2 / IMAGE_HEIGHT  # Use height relative to the image height
         
         cube = {
             "color": { "r": 20, "g": 2, "b": 200, "a": 0.1 },
-            "size": { "x": w / 500, "y": h / 500, "z": 0.00001 },  # Small cube for visualization
+            "size": { "x": cube_size, "y": cube_size, "z": 0.00001 },  # Small cube for visualization
             "pose": {
                 "position": {
                     "x": float(x_norm),

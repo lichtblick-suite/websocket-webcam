@@ -1,6 +1,7 @@
 import asyncio
 import time
 import cv2
+from src.config import IMAGE_WIDTH, IMAGE_HEIGHT
 from src.messages.mouse_position import get_mouse_messages
 from src.messages.eyes import get_eyes_message
 from src.messages.faces import get_faces_message
@@ -13,11 +14,15 @@ from foxglove_websocket.server import FoxgloveServer
 
 async def main():
     # Open the webcam (0 is the default camera)
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(WEBCAM_INDEX)
+    
     if not cap.isOpened():
         print("Error: Could not open webcam.")
         return
        
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, IMAGE_WIDTH)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, IMAGE_HEIGHT)
+    
     async with FoxgloveServer(
         "0.0.0.0",
         8765,
@@ -37,6 +42,8 @@ async def main():
                 print("Error: Failed to capture image.")
                 break
 
+            frame = cv2.resize(frame, (IMAGE_WIDTH, IMAGE_HEIGHT))
+            
             # Encode frame as JPEG and then base64 encode it to send as string
             ret, jpeg = cv2.imencode('.jpg', frame)
             if ret:

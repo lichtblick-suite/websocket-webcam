@@ -1,8 +1,9 @@
 import json
 import pyautogui
 from screeninfo import get_monitors
+from src.config import SCREEN_MONITOR_INDEX
 
-monitor = get_monitors()[0]  # Assuming the primary monitor
+monitor = get_monitors()[SCREEN_MONITOR_INDEX]
 screen_width = monitor.width
 screen_height = monitor.height
 
@@ -44,9 +45,6 @@ def create_scene_update(x, y, timestamp):
     return scene_update
 
 def get_mouse_messages(timestamp: json):
-    
-
-
     # Get current mouse position
     x, y = pyautogui.position()
 

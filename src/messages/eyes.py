@@ -1,5 +1,6 @@
 import json
 import cv2
+from src.config import IMAGE_WIDTH, IMAGE_HEIGHT
 
 # Load a pre-trained eye detection model (Haar Cascade)
 eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
@@ -15,9 +16,8 @@ def get_eyes_message(frame, timestamp):
         gray,
         scaleFactor=1.5,  # Increase to reduce false positives (try 1.2–1.3)
         minNeighbors=9,    # Increase to require more "confirmations" (try 7–10)
-        minSize=(30, 30)   # Ignore very small objects (increase if needed)
+        minSize=(15, 15)   # Ignore very small objects (increase if needed)
     )
-
 
     # Create SceneUpdate message with cubes for each eye
     scene_update = create_scene_update(eyes, timestamp)
@@ -26,17 +26,18 @@ def get_eyes_message(frame, timestamp):
 
 # Function to create SceneUpdate with spheres for each eye
 def create_scene_update(eyes, timestamp):
-    img_width, img_height = 1920, 1080  # Your image dimensions
 
     spheres = []  # Use spheres instead of cubes
     for (x, y, w, h) in eyes:
         # Convert pixel coordinates to normalized [-1, 1] range
-        x_norm = ((x + w / 2) - (img_width / 2)) / (img_width / 4)  # Normalize X
-        y_norm = -((y + h / 2) - (img_height / 2)) / (img_height / 2)  # Normalize Y (inverted)
+        x_norm = ((x + w / 2) - (IMAGE_WIDTH / 2)) / (IMAGE_WIDTH / 4)  # Normalize X
+        y_norm = -((y + h / 2) - (IMAGE_HEIGHT / 2)) / (IMAGE_HEIGHT / 2)  # Normalize Y (inverted)
+        
+        cube_size_x = w * 2 / IMAGE_WIDTH  # Use width relative to the image width
         
         sphere = {
             "color": { "r": 200, "g": 2, "b": 20, "a": 0.3 },
-            "size": { "x": w / 500, "y": h / 500, "z": 0.00001 },  # Small cube for visualization
+            "size": { "x": cube_size_x, "y": cube_size_x, "z": 0.00001 },  # Small cube for visualization
             "pose": {
                 "position": {
                     "x": float(x_norm),
