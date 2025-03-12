@@ -13,9 +13,9 @@ def get_eyes_message(frame, timestamp):
     # Detect eyes in the image
     eyes = eye_cascade.detectMultiScale(
         gray,
-        scaleFactor=1.1,  # Increase to reduce false positives (try 1.2–1.3)
+        scaleFactor=1.5,  # Increase to reduce false positives (try 1.2–1.3)
         minNeighbors=9,    # Increase to require more "confirmations" (try 7–10)
-        minSize=(60, 60)   # Ignore very small objects (increase if needed)
+        minSize=(30, 30)   # Ignore very small objects (increase if needed)
     )
 
 
@@ -63,7 +63,7 @@ def create_scene_update(eyes, timestamp):
     }
 
     scene_update = {
-        "timestamp": timestamp,
+        "deletions": [],
         "entities": [scene_entity]
     }
 

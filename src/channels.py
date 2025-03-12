@@ -37,11 +37,19 @@ async def add_channels_to_server(server: FoxgloveServer):
         "schemaEncoding": "jsonschema",
     })
     
-    channels['random'] = await server.add_channel({
-        "topic": "/random",
+    channels['mouse_position'] = await server.add_channel({
+        "topic": "/mouse_position",
         "encoding": "json",
-        "schemaName": "foxglove.Random",
-        "schema": load_json('src/schemas/RandomValue.json'),
+        "schemaName": "foxglove.MousePosition",
+        "schema": load_json('src/schemas/MousePosition.json'),
+        "schemaEncoding": "jsonschema",
+    })
+    
+    channels['mouse_markers'] = await server.add_channel({
+        "topic": "/mouse_position/markers",
+        "encoding": "json",
+        "schemaName": "foxglove.SceneUpdate",
+        "schema": load_json('src/schemas/SceneUpdate.json'),
         "schemaEncoding": "jsonschema",
     })
     

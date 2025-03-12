@@ -1,6 +1,6 @@
 {
-    "title": "lichtblick.randomValue",
-    "description": "Random value",
+    "title": "lichtblick.MousePosition",
+    "description": "X and Y of mouse position",
     "$comment": "Generated for testing",
     "type": "object",
     "properties": {
@@ -20,8 +20,11 @@
         },
         "description": "Timestamp of image"
       },
-      "value": {
-        "type": "number"
+      "x": {
+        "type": "integer"
+      },
+      "y": {
+        "type": "integer"
       }
     }
   }

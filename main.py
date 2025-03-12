@@ -1,8 +1,8 @@
 import asyncio
 import time
 import cv2
+from src.messages.mouse_position import get_mouse_messages
 from src.messages.eyes import get_eyes_message
-from src.messages.random_value import get_random_value_message
 from src.messages.faces import get_faces_message
 from src.messages.camera_info import get_camera_info_message
 from src.messages.webcam import get_image_message
@@ -57,8 +57,9 @@ async def main():
                 eyes_message = get_eyes_message(frame, timestamp)
                 await server.send_message(channels['eyes'], time.time_ns(), eyes_message)
                 
-                random_value_message = get_random_value_message(timestamp)
-                await server.send_message(channels["random"], time.time_ns(), random_value_message)
+                mouse_position_message, mouse_markers_message = get_mouse_messages(timestamp)
+                await server.send_message(channels["mouse_position"], time.time_ns(), mouse_position_message)
+                await server.send_message(channels["mouse_markers"], time.time_ns(), mouse_markers_message)
                 
                 
 

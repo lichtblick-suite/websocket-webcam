@@ -64,7 +64,7 @@ def create_scene_update(faces, timestamp):
     }
 
     scene_update = {
-        "timestamp": timestamp,
+        "deletions": [],
         "entities": [scene_entity]
     }
 
