@@ -1,7 +1,7 @@
 import asyncio
 import time
 import cv2
-from src.config import IMAGE_WIDTH, IMAGE_HEIGHT
+from src.config import IMAGE_WIDTH, IMAGE_HEIGHT, WEBCAM_INDEX
 from src.messages.mouse_position import get_mouse_messages
 from src.messages.eyes import get_eyes_message
 from src.messages.faces import get_faces_message
