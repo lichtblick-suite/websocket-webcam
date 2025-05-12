@@ -40,7 +40,7 @@ pip install -r requirements.txt
 ### 4️⃣ Run the Script
 
 ```
-python webcam.py
+python main.py
 ```
 
 ##🛑 Deactivating the Virtual Environment
